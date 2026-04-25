@@ -7,12 +7,14 @@ import { T, FONT } from "@/components/ui/tokens";
 export default async function Page() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
-  const { data: alerts } = await supabase
-    .from("alerts")
-    .select("id, triggered_at, station_name, aqhi_value, threshold, status")
-    .eq("user_id", userData.user!.id)
-    .order("triggered_at", { ascending: false })
-    .limit(50);
+  const { data: alerts } = userData.user
+    ? await supabase
+        .from("alerts")
+        .select("id, triggered_at, station_name, aqhi_value, threshold, status")
+        .eq("user_id", userData.user.id)
+        .order("triggered_at", { ascending: false })
+        .limit(50)
+    : { data: null };
 
   return (
     <div style={{ display: "flex", height: "100dvh", width: "100%", background: T.paper }}>

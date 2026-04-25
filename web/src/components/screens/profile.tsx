@@ -22,7 +22,13 @@ export type ProfileView = {
   sensitivity: string;
 };
 
-export function ProfileScreen({ initial }: { initial: ProfileView }) {
+export function ProfileScreen({
+  initial,
+  authed = true,
+}: {
+  initial: ProfileView;
+  authed?: boolean;
+}) {
   const [threshold, setThreshold] = useState(initial.threshold);
   const [conditions, setConditions] = useState<string[]>(
     initial.sensitivity === "asthma"
@@ -41,6 +47,10 @@ export function ProfileScreen({ initial }: { initial: ProfileView }) {
     setConditions((p) => (p.includes(c) ? p.filter((x) => x !== c) : [...p, c]));
 
   const handleSave = async () => {
+    if (!authed) {
+      window.location.href = "/login";
+      return;
+    }
     setSaving(true);
     setSavedMsg(null);
     const sensitivity = SENSITIVITY_FROM_CONDITIONS(conditions);
@@ -228,7 +238,7 @@ export function ProfileScreen({ initial }: { initial: ProfileView }) {
               disabled={saving}
               style={{ borderRadius: 0, minWidth: 140 }}
             >
-              {saving ? "Saving…" : "Save profile"}
+              {saving ? "Saving…" : authed ? "Save profile" : "Sign in to save"}
             </Btn>
           </div>
         </div>
