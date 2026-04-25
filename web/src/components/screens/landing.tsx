@@ -5,6 +5,12 @@ import { track } from "@vercel/analytics/react";
 import { T, FONT } from "../ui/tokens";
 import { Eyebrow, Sparkline } from "../ui/primitives";
 
+const POINTS: Array<[string, string]> = [
+  ["01", "Live Canadian wildfire data, ECCC AQHI, and satellite smoke detections."],
+  ["02", "Alerts you when the air at your address crosses your threshold."],
+  ["03", "Tuned to you, not a city average."],
+];
+
 export function Landing() {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
@@ -44,11 +50,12 @@ export function Landing() {
     >
       <header
         style={{
-          padding: "24px 52px",
+          padding: "24px 28px",
           display: "flex",
           alignItems: "center",
           gap: 10,
         }}
+        className="md:px-[52px]"
       >
         <div
           style={{
@@ -81,45 +88,75 @@ export function Landing() {
       </header>
 
       <section
-        style={{
-          flex: 1,
-          display: "grid",
-          gridTemplateColumns: "1.1fr 1fr",
-          alignItems: "center",
-          gap: 0,
-        }}
+        className="flex-1 grid grid-cols-1 md:grid-cols-[1.1fr_1fr] items-stretch md:items-center"
       >
-        <div style={{ padding: "0 56px 0 56px", maxWidth: 720 }}>
+        <div className="px-7 md:px-14 py-10 md:py-0 max-w-[720px]">
           <Eyebrow n={0} label="Reserve list · BC + AB" />
           <h1
             style={{
               marginTop: 28,
               fontFamily: FONT.display,
-              fontSize: "clamp(44px, 5vw, 78px)",
+              fontSize: "clamp(40px, 5vw, 78px)",
               lineHeight: 0.92,
-              letterSpacing: "-0.035em",
-              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              fontWeight: 800,
               color: T.ink,
-              maxWidth: 620,
+              maxWidth: 640,
             }}
           >
             Smoke alerts for your{" "}
-            <span style={{ color: T.e6 }}>address</span>, not your city.
+            <span style={{ color: T.e6 }}>address</span>, not for your
+            community.
           </h1>
-          <p
+
+          <ol
             style={{
-              marginTop: 24,
-              fontSize: 17,
-              lineHeight: "26px",
-              fontWeight: 300,
-              color: T.ink60,
-              maxWidth: 460,
+              marginTop: 32,
+              listStyle: "none",
+              padding: 0,
+              borderTop: `1px solid ${T.rule}`,
+              maxWidth: 480,
             }}
           >
-            Ember pulls Canadian wildfire data, ECCC AQHI forecasts, and
-            satellite smoke detections — then alerts you when the air at your
-            address crosses your threshold. Not a city average. Yours.
-          </p>
+            {POINTS.map(([n, body]) => (
+              <li
+                key={n}
+                style={{
+                  display: "flex",
+                  gap: 16,
+                  padding: "16px 0",
+                  borderBottom: `1px solid ${T.rule}`,
+                  alignItems: "baseline",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: FONT.sans,
+                    fontSize: 11,
+                    fontWeight: 500,
+                    letterSpacing: "0.12em",
+                    color: T.e6,
+                    flexShrink: 0,
+                    paddingTop: 4,
+                  }}
+                >
+                  ){n}
+                </span>
+                <span
+                  style={{
+                    fontFamily: FONT.sans,
+                    fontSize: 17,
+                    lineHeight: "24px",
+                    fontWeight: 600,
+                    color: T.ink,
+                    letterSpacing: "-0.005em",
+                  }}
+                >
+                  {body}
+                </span>
+              </li>
+            ))}
+          </ol>
 
           {done ? (
             <div
@@ -128,7 +165,7 @@ export function Landing() {
                 padding: "20px 24px",
                 borderTop: `2px solid ${T.e6}`,
                 background: T.white,
-                maxWidth: 460,
+                maxWidth: 480,
               }}
             >
               <div
@@ -164,7 +201,7 @@ export function Landing() {
           ) : (
             <form
               onSubmit={handleSubmit}
-              style={{ marginTop: 40, maxWidth: 460 }}
+              style={{ marginTop: 40, maxWidth: 480 }}
             >
               <div
                 style={{
@@ -201,7 +238,7 @@ export function Landing() {
                     border: "none",
                     fontFamily: FONT.sans,
                     fontSize: 14,
-                    fontWeight: 500,
+                    fontWeight: 600,
                     padding: "0 22px",
                     height: 44,
                     cursor: busy ? "wait" : "pointer",
@@ -234,31 +271,16 @@ export function Landing() {
               </div>
             </form>
           )}
-
-          <div
-            style={{
-              marginTop: 56,
-              paddingTop: 20,
-              borderTop: `1px solid ${T.rule}`,
-              fontSize: 11,
-              color: T.ink40,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              maxWidth: 460,
-            }}
-          >
-            Live data · CWFIS active fires · ECCC AQHI · Vancouver to Toronto
-          </div>
         </div>
 
         <div
+          className="md:h-full"
           style={{
             position: "relative",
-            height: "100%",
-            minHeight: 480,
+            minHeight: 420,
             background: T.e8,
             color: T.white,
-            padding: 56,
+            padding: "40px 28px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -295,7 +317,7 @@ export function Landing() {
             </span>
           </div>
 
-          <div>
+          <div style={{ marginTop: 32 }}>
             <div
               style={{
                 fontSize: 11,
@@ -312,8 +334,8 @@ export function Landing() {
                 fontFamily: FONT.display,
                 fontSize: "clamp(22px, 2.4vw, 32px)",
                 lineHeight: 1.15,
-                fontWeight: 500,
-                letterSpacing: "-0.02em",
+                fontWeight: 700,
+                letterSpacing: "-0.025em",
                 maxWidth: "32ch",
               }}
             >
@@ -327,6 +349,7 @@ export function Landing() {
 
           <div
             style={{
+              marginTop: 32,
               fontSize: 11,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
