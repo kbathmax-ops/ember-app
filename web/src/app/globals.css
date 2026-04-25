@@ -58,3 +58,70 @@ body {
     opacity: 0.35;
   }
 }
+
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.ember-grid-bg {
+  position: absolute;
+  inset: 0;
+  height: 600px;
+  width: 100%;
+  z-index: 0;
+  opacity: 0.7;
+  background-image:
+    linear-gradient(to right, var(--color-bone) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-bone) 1px, transparent 1px);
+  background-size: 6rem 5rem;
+  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 65%, transparent 110%);
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 65%, transparent 110%);
+  pointer-events: none;
+}
+
+.ember-radial-accent {
+  position: absolute;
+  left: 50%;
+  top: calc(100% - 90px);
+  height: 500px;
+  width: 700px;
+  transform: translateX(-50%);
+  border-radius: 100%;
+  z-index: 0;
+  background: radial-gradient(
+    closest-side,
+    #fff 70%,
+    var(--color-ember-100) 86%,
+    var(--color-ember-600) 100%
+  );
+  pointer-events: none;
+  animation: fade-up 1.2s var(--ease-out-strong) both;
+}
+
+@media (min-width: 768px) {
+  .ember-radial-accent {
+    height: 500px;
+    width: 1100px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ember-radial-accent {
+    top: calc(100% - 150px);
+    height: 750px;
+    width: 140%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ember-radial-accent {
+    animation: none;
+  }
+}

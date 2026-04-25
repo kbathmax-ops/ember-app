@@ -4,7 +4,6 @@ import { useState } from "react";
 import { track } from "@vercel/analytics/react";
 import { T, FONT } from "../ui/tokens";
 import { Eyebrow, Sparkline } from "../ui/primitives";
-import { DottedSurface } from "../ui/dotted-surface";
 
 const POINTS: Array<[string, string]> = [
   ["01", "Live Canadian wildfire data, ECCC AQHI, and satellite smoke detections."],
@@ -51,7 +50,8 @@ export function Landing() {
         overflow: "hidden",
       }}
     >
-      <DottedSurface />
+      <div className="ember-grid-bg" aria-hidden="true" />
+      <div className="ember-radial-accent" aria-hidden="true" />
       <header
         style={{
           position: "relative",
