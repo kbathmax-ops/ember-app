@@ -4,7 +4,6 @@ import { useState } from "react";
 import { T, FONT } from "../ui/tokens";
 import { Btn, Chip, Eyebrow, Label, Photo } from "../ui/primitives";
 import { NavRail } from "../nav-rail";
-import { createClient } from "@/lib/supabase/client";
 
 const CONDS = ["Asthma", "Young children", "Outdoor athlete", "Cardiac"];
 
@@ -36,32 +35,34 @@ export function ProfileScreen({ initial }: { initial: ProfileView }) {
   );
   const [address, setAddress] = useState(initial.address ?? "");
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [savedMsg, setSavedMsg] = useState<string | null>(null);
 
   const toggle = (c: string) =>
     setConditions((p) => (p.includes(c) ? p.filter((x) => x !== c) : [...p, c]));
 
   const handleSave = async () => {
     setSaving(true);
-    setSaved(false);
-    const supabase = createClient();
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) {
-      setSaving(false);
-      return;
-    }
+    setSavedMsg(null);
     const sensitivity = SENSITIVITY_FROM_CONDITIONS(conditions);
-    await supabase
-      .from("profiles")
-      .update({
+    const res = await fetch("/api/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
         address: address || null,
         aqhi_threshold: threshold,
         sensitivity,
-      })
-      .eq("user_id", data.user.id);
+      }),
+    });
     setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    if (!res.ok) {
+      setSavedMsg("Save failed");
+      return;
+    }
+    const result = (await res.json()) as { geocoded?: boolean };
+    setSavedMsg(
+      address && !result.geocoded ? "Saved (address not found)" : "Saved",
+    );
+    setTimeout(() => setSavedMsg(null), 3000);
   };
 
   return (
@@ -216,9 +217,9 @@ export function ProfileScreen({ initial }: { initial: ProfileView }) {
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, alignItems: "center" }}>
-            {saved && (
+            {savedMsg && (
               <span style={{ fontFamily: FONT.sans, fontSize: 12, color: T.lichen }}>
-                Saved
+                {savedMsg}
               </span>
             )}
             <Btn
