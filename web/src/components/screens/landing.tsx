@@ -1,343 +1,340 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
+import { track } from "@vercel/analytics/react";
 import { T, FONT } from "../ui/tokens";
-import { Eyebrow, Photo, Sparkline } from "../ui/primitives";
-
-const ROWS: Array<{ num: string; title: string; desc: string; flip: boolean }> = [
-  {
-    num: ")01",
-    title: "Real-time wildfire signal",
-    desc: "We pull from CWFIS, VIIRS satellite detections, and ECCC's FireWork smoke forecast — refreshed every 10 minutes. No delays.",
-    flip: false,
-  },
-  {
-    num: ")02",
-    title: "Your risk, not average risk",
-    desc: "AQHI is calibrated for general population. Ember layers your address, household, and respiratory profile to compute the alert that's actually for you.",
-    flip: true,
-  },
-  {
-    num: ")03",
-    title: "Clear when clear",
-    desc: "We tell you when air returns to your personal safe AQHI. No vague \"improving conditions\" or generic Special Air Quality Statements.",
-    flip: false,
-  },
-];
+import { Eyebrow, Sparkline } from "../ui/primitives";
 
 export function Landing() {
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setErr(null);
+    track("waitlist_submit_attempt");
+    const res = await fetch("/api/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, source: "landing-v1" }),
+    });
+    setBusy(false);
+    if (!res.ok) {
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      setErr(data.error ?? "Something went wrong");
+      track("waitlist_submit_error", { error: data.error ?? "unknown" });
+      return;
+    }
+    setDone(true);
+    track("waitlist_submit_success");
+  };
+
   return (
     <div
       style={{
         minHeight: "100dvh",
-        overflowY: "auto",
         background: T.paper,
         fontFamily: FONT.sans,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <header
         style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-          background: T.paper,
-          borderBottom: `1px solid ${T.rule}`,
-          padding: "0 52px",
+          padding: "24px 52px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          height: 52,
-          flexShrink: 0,
-        }}
-      >
-        <Link
-          href="/"
-          style={{ display: "flex", alignItems: "center", gap: 10, padding: 0 }}
-        >
-          <div
-            style={{
-              width: 22,
-              height: 22,
-              background: T.e8,
-              borderRadius: 3,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <svg width="10" height="12" viewBox="0 0 10 12">
-              <path
-                d="M5 0.5Q9 3 9 6.5Q9 10.5 5 12Q2.5 10.5 2 8.5Q4 9 5.5 7.5Q3.5 9.5 1.5 8Q0 6.5 1 5Q2.5 2 5 0.5Z"
-                fill="white"
-              />
-            </svg>
-          </div>
-          <span
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              color: T.ink,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            Ember
-          </span>
-        </Link>
-        <div style={{ display: "flex", gap: 40, alignItems: "center" }}>
-          {["Features", "How it works", "Pricing"].map((l) => (
-            <span
-              key={l}
-              style={{
-                fontSize: 13,
-                color: T.ink60,
-                cursor: "pointer",
-                letterSpacing: "0.01em",
-              }}
-            >
-              {l}
-            </span>
-          ))}
-        </div>
-        <Link
-          href="/login"
-          style={{
-            height: 36,
-            padding: "0 18px",
-            background: T.e8,
-            color: T.white,
-            fontSize: 13,
-            fontWeight: 500,
-            borderRadius: 18,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          Reserve — $1
-        </Link>
-      </header>
-
-      <section
-        style={{
-          display: "flex",
-          minHeight: "calc(100dvh - 52px)",
+          gap: 10,
         }}
       >
         <div
           style={{
-            width: "50%",
-            padding: "72px 56px",
+            width: 22,
+            height: 22,
+            background: T.e8,
+            borderRadius: 3,
             display: "flex",
-            flexDirection: "column",
+            alignItems: "center",
             justifyContent: "center",
           }}
         >
+          <svg width="10" height="12" viewBox="0 0 10 12">
+            <path
+              d="M5 0.5Q9 3 9 6.5Q9 10.5 5 12Q2.5 10.5 2 8.5Q4 9 5.5 7.5Q3.5 9.5 1.5 8Q0 6.5 1 5Q2.5 2 5 0.5Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            color: T.ink,
+            letterSpacing: "-0.01em",
+          }}
+        >
+          Ember
+        </span>
+      </header>
+
+      <section
+        style={{
+          flex: 1,
+          display: "grid",
+          gridTemplateColumns: "1.1fr 1fr",
+          alignItems: "center",
+          gap: 0,
+        }}
+      >
+        <div style={{ padding: "0 56px 0 56px", maxWidth: 720 }}>
+          <Eyebrow n={0} label="Reserve list · BC + AB" />
           <h1
             style={{
-              fontSize: 68,
-              lineHeight: "64px",
-              letterSpacing: "-0.02em",
+              marginTop: 28,
+              fontSize: "clamp(44px, 5vw, 72px)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.025em",
               fontWeight: 200,
               color: T.ink,
-              maxWidth: 520,
+              maxWidth: 600,
             }}
           >
-            The smoke app for people with lungs.
+            Smoke alerts for your{" "}
+            <span style={{ color: T.e6 }}>address</span>, not your city.
           </h1>
           <p
             style={{
               marginTop: 24,
-              fontSize: 18,
+              fontSize: 17,
               lineHeight: "26px",
               fontWeight: 300,
               color: T.ink60,
               maxWidth: 460,
             }}
           >
-            We tell you what you&apos;re smelling, when it clears, and whether
-            it&apos;s safe for your body. British Columbia, Alberta,
-            Saskatchewan, Ontario. $29 a year.
+            Ember pulls Canadian wildfire data, ECCC AQHI forecasts, and
+            satellite smoke detections — then alerts you when the air at your
+            address crosses your threshold. Not a city average. Yours.
           </p>
-          <div style={{ marginTop: 40, display: "flex", gap: 14, alignItems: "center" }}>
-            <Link
-              href="/login"
+
+          {done ? (
+            <div
               style={{
-                height: 52,
-                padding: "0 28px",
-                background: T.e8,
-                color: T.white,
-                fontSize: 15,
-                fontWeight: 500,
-                display: "flex",
-                alignItems: "center",
+                marginTop: 40,
+                padding: "20px 24px",
+                borderTop: `2px solid ${T.e6}`,
+                background: T.white,
+                maxWidth: 460,
               }}
             >
-              Reserve &nbsp;— &nbsp;$1
-            </Link>
-            <Link
-              href="/map"
-              style={{
-                height: 52,
-                padding: "0 24px",
-                border: `1px solid ${T.rule}`,
-                color: T.ink,
-                fontSize: 15,
-                display: "flex",
-                alignItems: "center",
-              }}
+              <div
+                style={{
+                  fontSize: 11,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  color: T.e6,
+                  marginBottom: 8,
+                }}
+              >
+                You&apos;re on the list
+              </div>
+              <p
+                style={{
+                  fontSize: 15,
+                  lineHeight: "22px",
+                  color: T.ink,
+                }}
+              >
+                We&apos;ll email when Ember opens for testers in your region.
+                Meanwhile, you can{" "}
+                <a
+                  href="/map"
+                  style={{ color: T.e6, textDecoration: "underline" }}
+                >
+                  see the live smoke map
+                </a>
+                .
+              </p>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleSubmit}
+              style={{ marginTop: 40, maxWidth: 460 }}
             >
-              See the map
-            </Link>
-          </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 0,
+                  borderBottom: `1px solid ${T.ink}`,
+                  paddingBottom: 4,
+                }}
+              >
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@yourdomain.com"
+                  disabled={busy}
+                  style={{
+                    flex: 1,
+                    fontFamily: FONT.sans,
+                    fontSize: 17,
+                    color: T.ink,
+                    background: "none",
+                    border: "none",
+                    padding: "8px 0",
+                    outline: "none",
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={busy}
+                  style={{
+                    background: T.e8,
+                    color: T.white,
+                    border: "none",
+                    fontFamily: FONT.sans,
+                    fontSize: 14,
+                    fontWeight: 500,
+                    padding: "0 22px",
+                    height: 44,
+                    cursor: busy ? "wait" : "pointer",
+                    letterSpacing: 0,
+                  }}
+                >
+                  {busy ? "…" : "Reserve →"}
+                </button>
+              </div>
+              {err && (
+                <div
+                  style={{
+                    marginTop: 12,
+                    fontSize: 13,
+                    color: T.e6,
+                  }}
+                >
+                  {err}
+                </div>
+              )}
+              <div
+                style={{
+                  marginTop: 14,
+                  fontSize: 12,
+                  color: T.ink40,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                Free reserve list. We&apos;ll only email you when Ember opens.
+              </div>
+            </form>
+          )}
+
           <div
             style={{
-              marginTop: 48,
-              paddingTop: 24,
+              marginTop: 56,
+              paddingTop: 20,
               borderTop: `1px solid ${T.rule}`,
               fontSize: 11,
               color: T.ink40,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
+              maxWidth: 460,
             }}
           >
-            In development · Vancouver + Calgary · Est. 2026
+            Live data · CWFIS active fires · ECCC AQHI · Vancouver to Toronto
           </div>
         </div>
-        <div style={{ width: "50%", position: "relative" }}>
-          <Photo label="wildfire smoke · interior bc · golden hour" style={{ height: "100%" }} />
+
+        <div
+          style={{
+            position: "relative",
+            height: "100%",
+            minHeight: 480,
+            background: T.e8,
+            color: T.white,
+            padding: 56,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
           <div
             style={{
-              position: "absolute",
-              bottom: 32,
-              left: 28,
-              width: 300,
-              background: T.white,
-              padding: "18px 20px",
-              borderTop: `2px solid ${T.e6}`,
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: 11,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.55)",
             }}
           >
-            <div
+            <span>Live · Vancouver, BC</span>
+            <span
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: 10,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
               }}
             >
-              <Eyebrow n={0} label="Live · Vancouver" />
-              <div
+              <span
                 style={{
                   width: 6,
                   height: 6,
                   borderRadius: 3,
-                  background: T.e6,
+                  background: T.e1,
                   animation: "pulse-badge 2s ease-in-out infinite",
                 }}
               />
-            </div>
+              AQHI 8
+            </span>
+          </div>
+
+          <div>
             <div
               style={{
-                fontSize: 15,
-                color: T.ink,
-                fontWeight: 400,
-                lineHeight: "20px",
-                marginBottom: 12,
+                fontSize: 11,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.55)",
+                marginBottom: 14,
               }}
             >
-              Pemberton RX clearing 19:00
+              Pemberton RX · BCWS C30751
             </div>
-            <Sparkline />
+            <p
+              style={{
+                fontSize: "clamp(22px, 2.4vw, 30px)",
+                lineHeight: 1.18,
+                fontWeight: 300,
+                letterSpacing: "-0.01em",
+                maxWidth: "32ch",
+              }}
+            >
+              Smoke arriving from the northeast in roughly 90 minutes. Plan
+              outdoor windows now.
+            </p>
+            <div style={{ marginTop: 28, maxWidth: 360 }}>
+              <Sparkline light />
+            </div>
+          </div>
+
+          <div
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.55)",
+            }}
+          >
+            Sample alert · your threshold · your address
           </div>
         </div>
       </section>
-
-      {ROWS.map(({ num, title, desc, flip }) => (
-        <section
-          key={num}
-          style={{
-            display: "flex",
-            height: 420,
-            borderTop: `1px solid ${T.rule}`,
-            flexDirection: flip ? "row-reverse" : "row",
-          }}
-        >
-          <Photo label={`editorial · ${title.toLowerCase()}`} style={{ width: "50%" }} />
-          <div
-            style={{
-              width: "50%",
-              padding: "52px 56px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              background: flip ? T.white : T.paper,
-            }}
-          >
-            <div
-              style={{
-                fontSize: 11,
-                color: T.e6,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                fontWeight: 500,
-                marginBottom: 16,
-              }}
-            >
-              {num}
-            </div>
-            <h2
-              style={{
-                fontSize: 32,
-                lineHeight: "34px",
-                letterSpacing: "-0.015em",
-                fontWeight: 400,
-                color: T.ink,
-                marginBottom: 16,
-              }}
-            >
-              {title}
-            </h2>
-            <p
-              style={{
-                fontSize: 15,
-                lineHeight: "22px",
-                fontWeight: 300,
-                color: T.ink60,
-                maxWidth: 360,
-              }}
-            >
-              {desc}
-            </p>
-          </div>
-        </section>
-      ))}
-
-      <footer
-        style={{
-          borderTop: `1px solid ${T.rule}`,
-          padding: "20px 52px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ fontSize: 11, color: T.ink40, letterSpacing: "0.04em" }}>
-          Ember &nbsp;&nbsp;Est. 2026 &nbsp;&nbsp;Vancouver + Calgary
-        </div>
-        <div style={{ display: "flex", gap: 24 }}>
-          {["Privacy", "Terms", "Contact"].map((l) => (
-            <span
-              key={l}
-              style={{
-                fontSize: 11,
-                color: T.ink40,
-                cursor: "pointer",
-                letterSpacing: "0.04em",
-              }}
-            >
-              {l}
-            </span>
-          ))}
-        </div>
-      </footer>
     </div>
   );
 }
