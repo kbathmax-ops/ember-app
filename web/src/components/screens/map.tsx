@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { T, FONT } from "../ui/tokens";
 import { Btn, Eyebrow, Label, Num, SmokeIllustration, Sparkline } from "../ui/primitives";
 import { NavRail } from "../nav-rail";
-import { SmokeMap } from "../smoke-map";
+import { CwfisMap } from "../cwfis-map";
 
 export function MapScreen() {
   const router = useRouter();
@@ -17,7 +17,7 @@ export function MapScreen() {
     <div style={{ display: "flex", height: "100dvh", width: "100%", overflow: "hidden" }}>
       <NavRail />
       <div style={{ flex: "0 0 62%", position: "relative", background: T.m50, overflow: "hidden" }}>
-        <SmokeMap selectedPlume={plume} onSelectPlume={setPlume} />
+        <CwfisMap onSelectFire={setPlume} />
         {plume === "pemberton" && (
           <div
             style={{
