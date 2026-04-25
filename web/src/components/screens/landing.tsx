@@ -53,38 +53,58 @@ export function Landing() {
           padding: "24px 28px",
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
           gap: 10,
         }}
         className="md:px-[52px]"
       >
-        <div
-          style={{
-            width: 22,
-            height: 22,
-            background: T.e8,
-            borderRadius: 3,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <svg width="10" height="12" viewBox="0 0 10 12">
-            <path
-              d="M5 0.5Q9 3 9 6.5Q9 10.5 5 12Q2.5 10.5 2 8.5Q4 9 5.5 7.5Q3.5 9.5 1.5 8Q0 6.5 1 5Q2.5 2 5 0.5Z"
-              fill="white"
-            />
-          </svg>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div
+            style={{
+              width: 22,
+              height: 22,
+              background: T.e8,
+              borderRadius: 3,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="10" height="12" viewBox="0 0 10 12">
+              <path
+                d="M5 0.5Q9 3 9 6.5Q9 10.5 5 12Q2.5 10.5 2 8.5Q4 9 5.5 7.5Q3.5 9.5 1.5 8Q0 6.5 1 5Q2.5 2 5 0.5Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+          <span
+            style={{
+              fontSize: 14,
+              fontWeight: 500,
+              color: T.ink,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Ember
+          </span>
         </div>
-        <span
+        <a
+          href="/admin"
           style={{
-            fontSize: 14,
+            fontSize: 11,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
             fontWeight: 500,
-            color: T.ink,
-            letterSpacing: "-0.01em",
+            color: T.ink40,
+            textDecoration: "none",
+            padding: "6px 12px",
+            border: `1px solid ${T.rule}`,
+            borderRadius: 999,
+            transition: "color 150ms, border-color 150ms",
           }}
         >
-          Ember
-        </span>
+          Admin
+        </a>
       </header>
 
       <section
