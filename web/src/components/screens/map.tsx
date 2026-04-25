@@ -115,11 +115,11 @@ export function MapScreen() {
           <div
             style={{
               marginTop: 16,
-              fontFamily: FONT.sans,
-              fontSize: 36,
-              lineHeight: "38px",
-              letterSpacing: "-0.015em",
-              fontWeight: 400,
+              fontFamily: "var(--font-okine), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontSize: 40,
+              lineHeight: "40px",
+              letterSpacing: "-0.035em",
+              fontWeight: 700,
               color: panelEmber ? T.white : T.ink,
               whiteSpace: "pre-line",
             }}

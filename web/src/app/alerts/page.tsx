@@ -24,10 +24,10 @@ export default async function Page() {
         <h1
           style={{
             marginTop: 24,
-            fontFamily: FONT.sans,
-            fontSize: 40,
-            letterSpacing: "-0.02em",
-            fontWeight: 300,
+            fontFamily: "var(--font-okine), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+            fontSize: 46,
+            letterSpacing: "-0.035em",
+            fontWeight: 700,
             color: T.ink,
             marginBottom: 40,
           }}

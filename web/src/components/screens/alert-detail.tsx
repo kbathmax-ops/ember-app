@@ -94,11 +94,11 @@ export function AlertDetail({ alert }: { alert: AlertView }) {
             <div
               style={{
                 marginTop: 20,
-                fontFamily: FONT.sans,
-                fontSize: 36,
-                lineHeight: "36px",
-                letterSpacing: "-0.02em",
-                fontWeight: 200,
+                fontFamily: "var(--font-okine), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                fontSize: 40,
+                lineHeight: "38px",
+                letterSpacing: "-0.035em",
+                fontWeight: 700,
                 color: T.ink,
                 maxWidth: 280,
               }}

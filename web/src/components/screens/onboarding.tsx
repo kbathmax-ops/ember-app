@@ -57,13 +57,13 @@ export function Onboarding() {
           <h1
             style={{
               marginTop: 36,
-              fontFamily: FONT.sans,
-              fontSize: 52,
-              lineHeight: "50px",
-              letterSpacing: "-0.02em",
-              fontWeight: 300,
+              fontFamily: FONT.display,
+              fontSize: 56,
+              lineHeight: "52px",
+              letterSpacing: "-0.035em",
+              fontWeight: 700,
               color: T.ink,
-              maxWidth: 320,
+              maxWidth: 340,
             }}
           >
             What do your lungs need?

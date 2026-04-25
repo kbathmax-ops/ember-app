@@ -97,10 +97,10 @@ export function ProfileScreen({
           <h1
             style={{
               marginTop: 28,
-              fontFamily: FONT.sans,
-              fontSize: 32,
-              letterSpacing: "-0.015em",
-              fontWeight: 400,
+              fontFamily: FONT.display,
+              fontSize: 38,
+              letterSpacing: "-0.03em",
+              fontWeight: 700,
               color: T.ink,
               marginBottom: 40,
             }}

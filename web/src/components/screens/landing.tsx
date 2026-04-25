@@ -94,12 +94,13 @@ export function Landing() {
           <h1
             style={{
               marginTop: 28,
-              fontSize: "clamp(44px, 5vw, 72px)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.025em",
-              fontWeight: 200,
+              fontFamily: FONT.display,
+              fontSize: "clamp(44px, 5vw, 78px)",
+              lineHeight: 0.92,
+              letterSpacing: "-0.035em",
+              fontWeight: 700,
               color: T.ink,
-              maxWidth: 600,
+              maxWidth: 620,
             }}
           >
             Smoke alerts for your{" "}
@@ -308,10 +309,11 @@ export function Landing() {
             </div>
             <p
               style={{
-                fontSize: "clamp(22px, 2.4vw, 30px)",
-                lineHeight: 1.18,
-                fontWeight: 300,
-                letterSpacing: "-0.01em",
+                fontFamily: FONT.display,
+                fontSize: "clamp(22px, 2.4vw, 32px)",
+                lineHeight: 1.15,
+                fontWeight: 500,
+                letterSpacing: "-0.02em",
                 maxWidth: "32ch",
               }}
             >
