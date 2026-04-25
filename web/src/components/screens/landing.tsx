@@ -129,6 +129,23 @@ export function Landing() {
             community.
           </h1>
 
+          <p
+            style={{
+              marginTop: 20,
+              fontFamily: FONT.sans,
+              fontSize: 18,
+              lineHeight: "27px",
+              fontWeight: 400,
+              color: T.ink60,
+              maxWidth: 520,
+              letterSpacing: "-0.005em",
+            }}
+          >
+            A personalized wildfire-smoke alert system for Canadians, tuned to
+            a specific address and a specific person&apos;s tolerance. Not a
+            city-wide AQHI average.
+          </p>
+
           <ol
             style={{
               marginTop: 32,
