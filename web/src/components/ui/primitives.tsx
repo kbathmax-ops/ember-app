@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { T, FONT } from "./tokens";
 
 export function Eyebrow({
@@ -99,7 +106,6 @@ export function Num({
   );
 }
 
-let _phId = 0;
 export function Photo({
   label,
   style = {},
@@ -107,9 +113,8 @@ export function Photo({
   label: string;
   style?: CSSProperties;
 }) {
-  const idRef = useRef<string | null>(null);
-  if (idRef.current === null) idRef.current = `p${++_phId}`;
-  const id = idRef.current;
+  const reactId = useId();
+  const id = `ph${reactId.replace(/:/g, "")}`;
   return (
     <div
       style={{

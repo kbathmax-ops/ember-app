@@ -99,6 +99,25 @@ export function Onboarding() {
         </div>
       </div>
       <Photo label="coastal fog · howe sound · bc" style={{ flex: 1 }} />
+      <button
+        onClick={() => router.push("/map")}
+        style={{
+          position: "absolute",
+          top: 24,
+          right: 28,
+          background: "none",
+          border: "none",
+          fontFamily: FONT.sans,
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.38)",
+          cursor: "pointer",
+        }}
+      >
+        Skip
+      </button>
     </div>
   );
 }
