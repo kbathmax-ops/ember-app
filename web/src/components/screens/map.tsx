@@ -115,7 +115,7 @@ export function MapScreen() {
           <div
             style={{
               marginTop: 16,
-              fontFamily: "var(--font-okine), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontFamily: FONT.sans,
               fontSize: 40,
               lineHeight: "40px",
               letterSpacing: "-0.035em",

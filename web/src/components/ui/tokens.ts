@@ -17,5 +17,5 @@ export const T = {
 
 export const FONT = {
   sans: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-  display: "var(--font-okine), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  display: "'Helvetica Neue', Helvetica, Arial, sans-serif",
 } as const;

@@ -94,7 +94,7 @@ export function AlertDetail({ alert }: { alert: AlertView }) {
             <div
               style={{
                 marginTop: 20,
-                fontFamily: "var(--font-okine), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                fontFamily: FONT.sans,
                 fontSize: 40,
                 lineHeight: "38px",
                 letterSpacing: "-0.035em",

@@ -24,7 +24,7 @@ export default async function Page() {
         <h1
           style={{
             marginTop: 24,
-            fontFamily: "var(--font-okine), 'Helvetica Neue', Helvetica, Arial, sans-serif",
+            fontFamily: FONT.sans,
             fontSize: 46,
             letterSpacing: "-0.035em",
             fontWeight: 700,
