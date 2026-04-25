@@ -4,6 +4,7 @@ import { useState } from "react";
 import { track } from "@vercel/analytics/react";
 import { T, FONT } from "../ui/tokens";
 import { Eyebrow, Sparkline } from "../ui/primitives";
+import { DottedSurface } from "../ui/dotted-surface";
 
 const POINTS: Array<[string, string]> = [
   ["01", "Live Canadian wildfire data, ECCC AQHI, and satellite smoke detections."],
@@ -41,15 +42,20 @@ export function Landing() {
   return (
     <div
       style={{
+        position: "relative",
         minHeight: "100dvh",
         background: T.paper,
         fontFamily: FONT.sans,
         display: "flex",
         flexDirection: "column",
+        overflow: "hidden",
       }}
     >
+      <DottedSurface />
       <header
         style={{
+          position: "relative",
+          zIndex: 1,
           padding: "24px 28px",
           display: "flex",
           alignItems: "center",
@@ -108,6 +114,7 @@ export function Landing() {
       </header>
 
       <section
+        style={{ position: "relative", zIndex: 1 }}
         className="flex-1 grid grid-cols-1 md:grid-cols-[1.1fr_1fr] items-stretch md:items-center"
       >
         <div className="px-7 md:px-14 py-10 md:py-0 max-w-[720px]">
