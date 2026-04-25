@@ -340,25 +340,20 @@ export function Landing() {
               color: "rgba(255,255,255,0.55)",
             }}
           >
-            <span>Live · Vancouver, BC</span>
             <span
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
+                background: "rgba(255,255,255,0.10)",
+                padding: "4px 10px",
+                borderRadius: 999,
+                letterSpacing: "0.18em",
               }}
             >
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: 3,
-                  background: T.e1,
-                  animation: "pulse-badge 2s ease-in-out infinite",
-                }}
-              />
-              AQHI 8
+              Sample alert
             </span>
+            <span style={{ color: "rgba(255,255,255,0.7)" }}>AQHI 8</span>
           </div>
 
           <div style={{ marginTop: 32 }}>
@@ -371,7 +366,7 @@ export function Landing() {
                 marginBottom: 14,
               }}
             >
-              Pemberton RX · BCWS C30751
+              Pemberton RX · BCWS C30751 · Aug 2025
             </div>
             <p
               style={{
@@ -400,7 +395,7 @@ export function Landing() {
               color: "rgba(255,255,255,0.55)",
             }}
           >
-            Sample alert · your threshold · your address
+            What yours will look like · tuned to your threshold and address
           </div>
         </div>
       </section>
