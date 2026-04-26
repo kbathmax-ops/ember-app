@@ -64,7 +64,7 @@ export function Landing() {
         }}
         className="md:px-[52px]"
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div
             style={{
               width: 22,
@@ -92,6 +92,20 @@ export function Landing() {
             }}
           >
             Ember
+          </span>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 500,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: T.ink40,
+              borderLeft: `1px solid ${T.rule}`,
+              paddingLeft: 14,
+            }}
+            className="hidden md:inline"
+          >
+            Address + Health Conditions
           </span>
         </div>
         <a
